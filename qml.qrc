@@ -3,5 +3,6 @@
         <file>main.qml</file>
         <file>WindowResize.qml</file>
         <file>WindowMove.qml</file>
+        <file>MyTitleBar.qml</file>
     </qresource>
 </RCC>

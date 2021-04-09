@@ -11,9 +11,8 @@ int main(int argc, char *argv[])
 
     QGuiApplication app(argc, argv);
 
-    //qmlRegisterType<FramelessTool>("Tool",1,0,"FramelessTool");
+    qmlRegisterType<FramelessTool>("Tools",1,0,"FramelessTool");
     QQmlApplicationEngine engine;
-    engine.rootContext()->setContextProperty("framelessTool",new FramelessTool(qApp));
     const QUrl url(QStringLiteral("qrc:/main.qml"));
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
                      &app, [url](QObject *obj, const QUrl &objUrl) {

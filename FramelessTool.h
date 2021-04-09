@@ -1,6 +1,4 @@
-#ifndef FRAMELESSTOOL_H
-#define FRAMELESSTOOL_H
-
+#pragma once
 #include <QObject>
 #include <QCursor>
 #include <QWindow>
@@ -20,8 +18,11 @@ public:
     //QGuiApplication::restoreOverrideCursor
     Q_INVOKABLE static void restoreOverrideCursor();
 
+    //使用win32操作winId
+    Q_INVOKABLE void showMax();
+    Q_INVOKABLE void showMin();
+    Q_INVOKABLE void showNormal();
+
 private:
     QWindow *window = nullptr;
 };
-
-#endif // FRAMELESSTOOL_H

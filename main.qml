@@ -21,38 +21,12 @@ Window {
     WindowResize{
         id: window_resize
         target: root
-
         anchors.fill: parent
 
-        Item{
-            anchors.fill: parent
-            Row{
-                anchors.centerIn: parent
-                spacing: 10
-
-                Button{
-                    text: "min"
-                    onClicked: {
-                        root.showMinimized();
-                    }
-                }
-                Button{
-                    text: "max"
-                    onClicked: {
-                        if(window_resize.isMax){
-                            root.showNormal();
-                        }else{
-                            root.showMaximized();
-                        }
-                    }
-                }
-                Button{
-                    text: "quit"
-                    onClicked: {
-                        Qt.quit();
-                    }
-                }
-            }
+        MyTitleBar{
+            width: parent.width
+            height: 40
+            target: root
         }
     }
 }

@@ -1,13 +1,15 @@
 import QtQuick 2.12
 import QtQuick.Window 2.12
 import QtQuick.Controls 2.12
+import Tools 1.0
 
 //无边框缩放
 Item {
     id: control
 
-    //需绑定target及min-max
+    //需绑定target
     property Window target
+    property alias tool: frameless_tool
     property int minWidth: target.minimumWidth
     property int minHeight: target.minimumHeight
     property int handleWidth: 5
@@ -24,6 +26,11 @@ Item {
     property point tempOffsetPos
     //计算得到的geometry
     property rect calcRect
+
+    FramelessTool{
+        id: frameless_tool
+        window: target
+    }
 
     Item{
         z: handleZ
@@ -126,17 +133,17 @@ Item {
         tempRect = Qt.rect(target.x,target.y,target.width,target.height);
         calcRect = tempRect;
         //mouse offset
-        tempGlobalPos = framelessTool.pos();
+        tempGlobalPos = frameless_tool.pos();
         tempOffsetPos = Qt.point(mouse.x-tempGlobalPos.x,
                                  mouse.y-tempGlobalPos.y);
         onResize = true;
         //设置鼠标形状，防止移动到item外部后变形
-        framelessTool.setOverrideCursor(shape);
+        frameless_tool.setOverrideCursor(shape);
     }
 
     function endResize(){
         onResize = false;
-        framelessTool.restoreOverrideCursor();
+        frameless_tool.restoreOverrideCursor();
     }
 
     //m-上下左右为bool参数，表示在哪个边移动
@@ -145,7 +152,7 @@ Item {
         if(!onResize)
             return;
 
-        tempGlobalPos = framelessTool.pos();
+        tempGlobalPos = frameless_tool.pos();
         if(mtop){
             calcRect.y = tempRect.y+tempGlobalPos.y+tempOffsetPos.y;
             if(calcRect.y > tempRect.y+tempRect.height-minHeight)
