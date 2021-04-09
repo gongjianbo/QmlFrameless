@@ -35,11 +35,15 @@ WindowMove {
             }
         }
         Button{
+            id: btn_close
             width: 60
             height: 26
             text: "quit"
             onClicked: {
                 Qt.quit();
+            }
+            background: Rectangle{
+                color: btn_close.hovered?"red":"gray"
             }
         }
     }
