@@ -7,7 +7,22 @@
 FramelessTool::FramelessTool(QObject *parent)
     : QObject(parent)
 {
+}
 
+FramelessTool *FramelessTool::getInstance()
+{
+    static FramelessTool *instance = nullptr;
+    if(!instance){
+        instance = new FramelessTool(qApp);
+    }
+    return instance;
+}
+
+QObject *FramelessTool::singletonProvider(QQmlEngine *engine, QJSEngine *scriptEngine)
+{
+    Q_UNUSED(engine)
+    Q_UNUSED(scriptEngine)
+    return getInstance();
 }
 
 QPoint FramelessTool::pos()
@@ -25,7 +40,7 @@ void FramelessTool::restoreOverrideCursor()
     QGuiApplication::restoreOverrideCursor();
 }
 
-void FramelessTool::showMax()
+void FramelessTool::showMax(QWindow *window)
 {
     if(window){
         //window->showMaximized();
@@ -33,7 +48,7 @@ void FramelessTool::showMax()
     }
 }
 
-void FramelessTool::showMin()
+void FramelessTool::showMin(QWindow *window)
 {
     if(window){
         //window->showMinimized();
@@ -41,7 +56,7 @@ void FramelessTool::showMin()
     }
 }
 
-void FramelessTool::showNormal()
+void FramelessTool::showNormal(QWindow *window)
 {
     if(window){
         //window->showNormal();

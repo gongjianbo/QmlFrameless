@@ -1,11 +1,12 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.12
+import Gt.Tool 1.0
 
 //继承WindowMove实现标题栏
 WindowMove {
     id: control
 
-    Row{
+    Row {
         anchors{
             verticalCenter: parent.verticalCenter
             right: parent.right
@@ -13,16 +14,16 @@ WindowMove {
         }
         spacing: 10
 
-        Button{
+        Button {
             width: 60
             height: 26
             text: "min"
             onClicked: {
                 //root.showMinimized(); --qt bug
-                control.tool.showMin();
+                FramelessTool.showMin(root);
             }
         }
-        Button{
+        Button {
             width: 60
             height: 26
             text: "max"
@@ -34,7 +35,7 @@ WindowMove {
                 }
             }
         }
-        Button{
+        Button {
             id: btn_close
             width: 60
             height: 26

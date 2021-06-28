@@ -11,19 +11,19 @@ Window {
     minimumHeight: 200
     minimumWidth: 300
     title: qsTr("QML Frameless (by GongJianBo 1992)")
-    flags:  Qt.FramelessWindowHint |
-            Qt.Window  |
-            Qt.WindowMinMaxButtonsHint |
-            Qt.WindowSystemMenuHint
+    flags: Qt.FramelessWindowHint |
+           Qt.Window  |
+           Qt.WindowMinMaxButtonsHint |
+           Qt.WindowSystemMenuHint
 
     color: "darkCyan"
 
-    WindowResize{
+    WindowResize {
         id: window_resize
         target: root
         anchors.fill: parent
 
-        MyTitleBar{
+        MyTitleBar {
             width: parent.width
             height: 40
             target: root

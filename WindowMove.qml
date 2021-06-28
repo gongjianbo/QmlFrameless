@@ -1,7 +1,7 @@
 import QtQuick 2.12
 import QtQuick.Window 2.12
 import QtQuick.Controls 2.12
-import Tools 1.0
+import Gt.Tool 1.0
 
 //无边框移动
 Item {
@@ -9,7 +9,6 @@ Item {
 
     //需绑定target
     property Window target
-    property alias tool: frameless_tool
     //拖到顶部放大
     property bool autoMax: true
     property bool onMove: false
@@ -23,12 +22,7 @@ Item {
     //距离顶部px
     property int tempTopSpace
 
-    Rectangle{ anchors.fill: parent; color: "orange"; }
-
-    FramelessTool{
-        id: frameless_tool
-        window: target
-    }
+    Rectangle { anchors.fill: parent; color: "orange"; }
 
     MouseArea {
         z: -1
@@ -38,7 +32,7 @@ Item {
                 return;
 
             //mouse offset
-            tempGlobalPos = frameless_tool.pos();
+            tempGlobalPos = FramelessTool.pos();
             tempOffsetPos = Qt.point(target.x-tempGlobalPos.x,
                                      target.y-tempGlobalPos.y);
             onMove = true;
@@ -70,7 +64,7 @@ Item {
                 //默认作为标题栏，宽度同window宽度==来计算
                 tempOffsetPos.x = -normal_x;
             }
-            tempGlobalPos = frameless_tool.pos();
+            tempGlobalPos = FramelessTool.pos();
             target.x = tempGlobalPos.x+tempOffsetPos.x;
             target.y = tempGlobalPos.y+tempOffsetPos.y;
         }

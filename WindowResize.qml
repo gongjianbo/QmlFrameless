@@ -1,7 +1,7 @@
 import QtQuick 2.12
 import QtQuick.Window 2.12
 import QtQuick.Controls 2.12
-import Tools 1.0
+import Gt.Tool 1.0
 
 //无边框缩放
 Item {
@@ -9,7 +9,6 @@ Item {
 
     //需绑定target
     property Window target
-    property alias tool: frameless_tool
     property int minWidth: target.minimumWidth
     property int minHeight: target.minimumHeight
     property int handleWidth: 5
@@ -27,17 +26,12 @@ Item {
     //计算得到的geometry
     property rect calcRect
 
-    FramelessTool{
-        id: frameless_tool
-        window: target
-    }
-
-    Item{
+    Item {
         z: handleZ
         anchors.fill: parent
         enabled: !isMax
         //左上
-        MouseArea{
+        MouseArea {
             width: handleWidth*2
             height: handleWidth*2
             z: 1
@@ -48,7 +42,7 @@ Item {
             onPositionChanged: doResize(true,false,true,false,mouse);
         }
         //右上
-        MouseArea{
+        MouseArea {
             anchors.right: parent.right
             width: handleWidth*2
             height: handleWidth*2
@@ -60,7 +54,7 @@ Item {
             onPositionChanged: doResize(true,false,false,true,mouse);
         }
         //左下
-        MouseArea{
+        MouseArea {
             anchors.bottom: parent.bottom
             width: handleWidth*2
             height: handleWidth*2
@@ -72,7 +66,7 @@ Item {
             onPositionChanged: doResize(false,true,true,false,mouse);
         }
         //右下
-        MouseArea{
+        MouseArea {
             anchors.right: parent.right
             anchors.bottom: parent.bottom
             width: handleWidth*2
@@ -85,7 +79,7 @@ Item {
             onPositionChanged: doResize(false,true,false,true,mouse);
         }
         //上
-        MouseArea{
+        MouseArea {
             width: target.width
             height: handleWidth
             cursorShape: Qt.SizeVerCursor
@@ -95,7 +89,7 @@ Item {
             onPositionChanged: doResize(true,false,false,false,mouse);
         }
         //下
-        MouseArea{
+        MouseArea {
             anchors.bottom: parent.bottom
             width: target.width
             height: handleWidth
@@ -106,7 +100,7 @@ Item {
             onPositionChanged: doResize(false,true,false,false,mouse);
         }
         //左
-        MouseArea{
+        MouseArea {
             width: handleWidth
             height: target.height
             cursorShape: Qt.SizeHorCursor
@@ -116,7 +110,7 @@ Item {
             onPositionChanged: doResize(false,false,true,false,mouse);
         }
         //右
-        MouseArea{
+        MouseArea {
             anchors.right: parent.right
             width: handleWidth
             height: target.height
@@ -133,17 +127,17 @@ Item {
         tempRect = Qt.rect(target.x,target.y,target.width,target.height);
         calcRect = tempRect;
         //mouse offset
-        tempGlobalPos = frameless_tool.pos();
+        tempGlobalPos = FramelessTool.pos();
         tempOffsetPos = Qt.point(mouse.x-tempGlobalPos.x,
                                  mouse.y-tempGlobalPos.y);
         onResize = true;
         //设置鼠标形状，防止移动到item外部后变形
-        frameless_tool.setOverrideCursor(shape);
+        FramelessTool.setOverrideCursor(shape);
     }
 
     function endResize(){
         onResize = false;
-        frameless_tool.restoreOverrideCursor();
+        FramelessTool.restoreOverrideCursor();
     }
 
     //m-上下左右为bool参数，表示在哪个边移动
@@ -152,7 +146,7 @@ Item {
         if(!onResize)
             return;
 
-        tempGlobalPos = frameless_tool.pos();
+        tempGlobalPos = FramelessTool.pos();
         if(mtop){
             calcRect.y = tempRect.y+tempGlobalPos.y+tempOffsetPos.y;
             if(calcRect.y > tempRect.y+tempRect.height-minHeight)
