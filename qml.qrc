@@ -4,5 +4,6 @@
         <file>WindowResize.qml</file>
         <file>WindowMove.qml</file>
         <file>MyTitleBar.qml</file>
+        <file>WindowRubber.qml</file>
     </qresource>
 </RCC>

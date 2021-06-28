@@ -26,7 +26,7 @@ WindowMove {
         Button {
             width: 60
             height: 26
-            text: "max"
+            text: window_resize.isMax ? "nor" : "max"
             onClicked: {
                 if(window_resize.isMax){
                     root.showNormal();

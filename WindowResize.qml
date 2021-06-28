@@ -1,3 +1,4 @@
+import QtQml 2.12
 import QtQuick 2.12
 import QtQuick.Window 2.12
 import QtQuick.Controls 2.12
@@ -7,8 +8,9 @@ import Gt.Tool 1.0
 Item {
     id: control
 
-    //需绑定target
+    //需绑定target操作窗口和rubber橡皮筋窗口
     property Window target
+    property Window rubber
     property int minWidth: target.minimumWidth
     property int minHeight: target.minimumHeight
     property int handleWidth: 5
@@ -36,7 +38,7 @@ Item {
             height: handleWidth*2
             z: 1
             cursorShape: Qt.SizeFDiagCursor
-            Rectangle{ anchors.fill: parent; color: "blue" }
+            Rectangle { anchors.fill: parent; color: "blue" }
             onPressed: beginResize(mouse,cursorShape);
             onReleased: endResize();
             onPositionChanged: doResize(true,false,true,false,mouse);
@@ -48,7 +50,7 @@ Item {
             height: handleWidth*2
             z: 1
             cursorShape: Qt.SizeBDiagCursor
-            Rectangle{ anchors.fill: parent; color: "blue" }
+            Rectangle { anchors.fill: parent; color: "blue" }
             onPressed: beginResize(mouse,cursorShape);
             onReleased: endResize();
             onPositionChanged: doResize(true,false,false,true,mouse);
@@ -60,7 +62,7 @@ Item {
             height: handleWidth*2
             z: 1
             cursorShape: Qt.SizeBDiagCursor
-            Rectangle{ anchors.fill: parent; color: "blue" }
+            Rectangle { anchors.fill: parent; color: "blue" }
             onPressed: beginResize(mouse,cursorShape);
             onReleased: endResize();
             onPositionChanged: doResize(false,true,true,false,mouse);
@@ -73,7 +75,7 @@ Item {
             height: handleWidth*2
             z: 1
             cursorShape: Qt.SizeFDiagCursor
-            Rectangle{ anchors.fill: parent; color: "blue" }
+            Rectangle { anchors.fill: parent; color: "blue" }
             onPressed: beginResize(mouse,cursorShape);
             onReleased: endResize();
             onPositionChanged: doResize(false,true,false,true,mouse);
@@ -83,7 +85,7 @@ Item {
             width: target.width
             height: handleWidth
             cursorShape: Qt.SizeVerCursor
-            Rectangle{ anchors.fill: parent; color: "green" }
+            Rectangle { anchors.fill: parent; color: "green" }
             onPressed: beginResize(mouse,cursorShape);
             onReleased: endResize();
             onPositionChanged: doResize(true,false,false,false,mouse);
@@ -94,7 +96,7 @@ Item {
             width: target.width
             height: handleWidth
             cursorShape: Qt.SizeVerCursor
-            Rectangle{ anchors.fill: parent; color: "green" }
+            Rectangle { anchors.fill: parent; color: "green" }
             onPressed: beginResize(mouse,cursorShape);
             onReleased: endResize();
             onPositionChanged: doResize(false,true,false,false,mouse);
@@ -104,7 +106,7 @@ Item {
             width: handleWidth
             height: target.height
             cursorShape: Qt.SizeHorCursor
-            Rectangle{ anchors.fill: parent; color: "green" }
+            Rectangle { anchors.fill: parent; color: "green" }
             onPressed: beginResize(mouse,cursorShape);
             onReleased: endResize();
             onPositionChanged: doResize(false,false,true,false,mouse);
@@ -115,7 +117,7 @@ Item {
             width: handleWidth
             height: target.height
             cursorShape: Qt.SizeHorCursor
-            Rectangle{ anchors.fill: parent; color: "green" }
+            Rectangle { anchors.fill: parent; color: "green" }
             onPressed: beginResize(mouse,cursorShape);
             onReleased: endResize();
             onPositionChanged: doResize(false,false,false,true,mouse);
@@ -133,11 +135,21 @@ Item {
         onResize = true;
         //设置鼠标形状，防止移动到item外部后变形
         FramelessTool.setOverrideCursor(shape);
+
+        //获取window的rect，设置给rubber
+        rubber.cloneGeometry(target,rubber);
+        //显示橡皮擦
+        rubber.show();
     }
 
     function endResize(){
         onResize = false;
         FramelessTool.restoreOverrideCursor();
+
+        //rect设置给window
+        rubber.cloneGeometry(rubber,target);
+        //隐藏橡皮擦
+        rubber.hide();
     }
 
     //m-上下左右为bool参数，表示在哪个边移动
@@ -168,6 +180,6 @@ Item {
             if(calcRect.width < minWidth)
                 calcRect.width = minWidth;
         }
-        target.setGeometry(calcRect);
+        rubber.setGeometry(calcRect);
     }
 }

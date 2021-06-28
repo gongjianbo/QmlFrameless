@@ -1,3 +1,4 @@
+import QtQml 2.12
 import QtQuick 2.12
 import QtQuick.Window 2.12
 import QtQuick.Controls 2.12
@@ -7,11 +8,14 @@ import Gt.Tool 1.0
 Item {
     id: control
 
-    //需绑定target
+    //需绑定target操作窗口
     property Window target
+    //TODO暂时move不用橡皮筋，放大缩小的预览比较麻烦
+    //property Window rubber
     //拖到顶部放大
     property bool autoMax: true
     property bool onMove: false
+    property bool onPress: false
     property bool isMax: (target.visibility===Window.Maximized||
                           target.visibility===Window.FullScreen)
 
@@ -35,9 +39,11 @@ Item {
             tempGlobalPos = FramelessTool.pos();
             tempOffsetPos = Qt.point(target.x-tempGlobalPos.x,
                                      target.y-tempGlobalPos.y);
-            onMove = true;
+            onMove = false;
+            onPress = true;
         }
         onReleased: {
+            onPress = false;
             if(onMove && autoMax){
                 //拖到顶上最大化
                 tempTopSpace = target.y-target.screen.virtualY;
@@ -50,8 +56,13 @@ Item {
             onMove = false;
         }
         onPositionChanged: {
-            if(!onMove)
-                return;
+            if(!onMove){
+                if(onPress){
+                    onMove = true;
+                }else{
+                    return;
+                }
+            }
 
             if(isMax && autoMax){
                 //最大化时拖动恢复为普通状态

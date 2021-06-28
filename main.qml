@@ -21,7 +21,12 @@ Window {
     WindowResize {
         id: window_resize
         target: root
+        rubber: rubber
         anchors.fill: parent
+
+        WindowRubber {
+            id: rubber
+        }
 
         MyTitleBar {
             width: parent.width
